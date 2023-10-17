@@ -7,7 +7,7 @@ const page = () => {
       <TextField.Root>
         <TextField.Input placeholder="Title" />
       </TextField.Root>
-      <TextArea />
+      <TextArea placeholder="Description " />
       <Button>Add Issue</Button>
     </div>
   );
