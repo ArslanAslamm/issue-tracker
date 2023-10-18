@@ -10,6 +10,7 @@ import { createIssueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 const page = () => {
   type IssueForm = z.infer<typeof createIssueSchema>;
   const {
@@ -21,6 +22,7 @@ const page = () => {
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
+  const [submit, setSubmit] = useState(false);
   const router = useRouter();
   return (
     <div className="flex justify-center items-center flex-col p-5 w-[1500px]">
@@ -51,9 +53,11 @@ const page = () => {
         className=" space-y-3"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmit(true);
             await axios.post("/api/issues", data);
             router.push("/issues");
           } catch (error) {
+            setSubmit(false);
             setError("Something went wrong");
           }
         })}
@@ -76,7 +80,9 @@ const page = () => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button type="submit">Add Issue</Button>
+        <Button type="submit" disabled={submit}>
+          Add Issue {submit && <Spinner />}
+        </Button>
       </form>
     </div>
   );
