@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { TextField, Button, Callout, Text } from "@radix-ui/themes";
+import { TextField, Button, Callout, Text, TextArea } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from "react-hook-form";
@@ -70,7 +70,7 @@ const IssueForm = () => {
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
-        {/* <SimpleMDE placeholder="Description " /> */}
+        {/* <SimpleMDE placeholder="Description " />
         <Controller
           control={control}
           name="description"
@@ -78,6 +78,10 @@ const IssueForm = () => {
           render={({ field }) => (
             <SimpleMDE {...field} placeholder="Description" />
           )}
+        /> */}
+        <textarea
+          placeholder="description"
+          {...register("description", { required: true, maxLength: 20 })}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <div className="flex justify-between">
