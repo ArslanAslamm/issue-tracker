@@ -24,6 +24,16 @@ const page = () => {
   const [error, setError] = useState("");
   const [submit, setSubmit] = useState(false);
   const router = useRouter();
+  const submitForm = handleSubmit(async (data) => {
+    try {
+      setSubmit(true);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      setSubmit(false);
+      setError("Something went wrong");
+    }
+  });
   return (
     <div className="flex justify-center items-center flex-col p-5 w-[1500px]">
       <h1 className="text-3xl font-bold text-center mb-5">New Issue</h1>
@@ -49,19 +59,7 @@ const page = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className=" space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setSubmit(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setSubmit(false);
-            setError("Something went wrong");
-          }
-        })}
-      >
+      <form className=" space-y-3" onSubmit={submitForm}>
         <TextField.Root>
           <TextField.Input
             placeholder="Title"
