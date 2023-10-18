@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import Link from "next/link";
 const page = () => {
   type IssueForm = z.infer<typeof createIssueSchema>;
   const {
@@ -31,7 +32,8 @@ const page = () => {
       router.push("/issues");
     } catch (error) {
       setSubmit(false);
-      setError("Something went wrong");
+
+      setError("Something went wrong" + error);
     }
   });
   return (
@@ -78,9 +80,16 @@ const page = () => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button type="submit" disabled={submit}>
-          Add Issue {submit && <Spinner />}
-        </Button>
+        <div className="flex justify-between">
+          <Button type="submit" disabled={submit}>
+            Add Issue {submit && <Spinner />}
+          </Button>
+          <Link href="/issues">
+            <div className="text-zinc-500 px-2 py-1 border-2 rounded-md">
+              Go Back
+            </div>
+          </Link>
+        </div>
       </form>
     </div>
   );
